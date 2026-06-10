@@ -51,7 +51,7 @@
 <body>
   <header>
     <h1>vCard Link Test</h1>
-    <p>Tap a link to download a <code>.vcf</code> / <code>.vcard</code> contact. Each card notes the expected native iOS behavior.</p>
+    <p>Tap a link to download a <code>.vcf</code> / <code>.vcard</code> contact. Each card describes the case it exercises.</p>
   </header>
   <ul>
     
@@ -59,63 +59,63 @@
         <a class="card" href="files/full-contact.vcf">
           <span class="card-title">Full contact</span>
           <span class="card-meta"><code>files/full-contact.vcf</code></span>
-          <span class="card-expected">Native &quot;Add to Contacts&quot; card (iOS 17+). All fields present.</span>
+          <span class="card-expected">A complete contact with all common fields populated.</span>
         </a>
       </li>
       <li>
         <a class="card" href="files/minimal-contact.vcf">
           <span class="card-title">Minimal contact (name only)</span>
           <span class="card-meta"><code>files/minimal-contact.vcf</code></span>
-          <span class="card-expected">Native &quot;Add to Contacts&quot; card. Only N + FN.</span>
+          <span class="card-expected">A minimal contact — name only (N + FN).</span>
         </a>
       </li>
       <li>
         <a class="card" href="files/multiple-contacts.vcf">
           <span class="card-title">Multiple contacts (3 in one file)</span>
           <span class="card-meta"><code>files/multiple-contacts.vcf</code></span>
-          <span class="card-expected">QuickLook fallback. Multiple contacts are not supported for native add.</span>
+          <span class="card-expected">Three contacts in one file — only the first is imported; the rest are ignored.</span>
         </a>
       </li>
       <li>
         <a class="card" href="files/malformed.vcf">
           <span class="card-title">Malformed (not a vCard)</span>
           <span class="card-meta"><code>files/malformed.vcf</code></span>
-          <span class="card-expected">QuickLook fallback. Payload is garbage, not a valid vCard.</span>
+          <span class="card-expected">Not a valid vCard — the payload is plain garbage text.</span>
         </a>
       </li>
       <li>
         <a class="card" href="files/empty.vcf">
           <span class="card-title">Empty vCard (no usable fields)</span>
           <span class="card-meta"><code>files/empty.vcf</code></span>
-          <span class="card-expected">QuickLook fallback. Valid structure but no importable data.</span>
+          <span class="card-expected">A structurally valid vCard with no usable fields (empty FN).</span>
         </a>
       </li>
       <li>
         <a class="card" href="files/with-photo.vcf">
           <span class="card-title">Contact with embedded photo</span>
           <span class="card-meta"><code>files/with-photo.vcf</code></span>
-          <span class="card-expected">Native card showing an embedded photo (base64 PNG).</span>
+          <span class="card-expected">A contact with an embedded photo (base64 PNG).</span>
         </a>
       </li>
       <li>
         <a class="card" href="files/with-note.vcf">
           <span class="card-title">Contact with a NOTE field</span>
           <span class="card-meta"><code>files/with-note.vcf</code></span>
-          <span class="card-expected">Native card. NOTE is dropped on import by design; the rest imports fine.</span>
+          <span class="card-expected">A contact with a NOTE field, imported along with the other fields.</span>
         </a>
       </li>
       <li>
         <a class="card" href="files/unicode-name.vcf">
           <span class="card-title">Unicode name (山田太郎)</span>
           <span class="card-meta"><code>files/unicode-name.vcf</code></span>
-          <span class="card-expected">Native card with a non-Latin (Japanese) name.</span>
+          <span class="card-expected">A contact with a non-Latin (Japanese) name.</span>
         </a>
       </li>
       <li>
         <a class="card" href="files/full-contact.vcard">
           <span class="card-title">Full contact (.vcard extension)</span>
           <span class="card-meta"><code>files/full-contact.vcard</code></span>
-          <span class="card-expected">Native card. Recognized by the .vcard file extension.</span>
+          <span class="card-expected">The same full contact, served with a .vcard extension.</span>
         </a>
       </li>
   </ul>

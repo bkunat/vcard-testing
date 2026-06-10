@@ -5,5 +5,5 @@ FN:Ned Noteworthy
 ORG:Example Inc
 TEL;TYPE=CELL:+1-555-555-5555
 EMAIL;TYPE=INTERNET:ned@example.com
-NOTE:This note is dropped on import by design. The rest should import fine.
+NOTE:This note should import along with the other fields.
 END:VCARD
