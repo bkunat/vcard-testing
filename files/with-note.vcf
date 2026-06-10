@@ -1,0 +1,9 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Noteworthy;Ned;;;
+FN:Ned Noteworthy
+ORG:Example Inc
+TEL;TYPE=CELL:+1-555-555-5555
+EMAIL;TYPE=INTERNET:ned@example.com
+NOTE:This note is dropped on import by design. The rest should import fine.
+END:VCARD

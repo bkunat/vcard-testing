@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>vCard Link Test</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f2f2f7;
+    color: #1c1c1e;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { background: #000; color: #f2f2f7; }
+    .card { background: #1c1c1e; }
+    .card-meta { color: #aeaeb2; }
+    .card-expected { color: #c7c7cc; }
+    header p { color: #aeaeb2; }
+  }
+  header {
+    padding: 24px 20px 8px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  header h1 { font-size: 26px; margin: 0 0 6px; }
+  header p { margin: 0; color: #6c6c70; font-size: 15px; line-height: 1.4; }
+  ul { list-style: none; margin: 0 auto; padding: 12px 16px 40px; max-width: 720px; }
+  li { margin: 0 0 12px; }
+  .card {
+    display: block;
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px 18px;
+    text-decoration: none;
+    color: inherit;
+    min-height: 64px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    -webkit-tap-highlight-color: rgba(0,0,0,0.08);
+  }
+  .card:active { opacity: 0.6; }
+  .card-title { display: block; font-size: 19px; font-weight: 600; margin-bottom: 4px; }
+  .card-meta { display: block; font-size: 13px; color: #6c6c70; margin-bottom: 6px; word-break: break-all; }
+  .card-meta code, .card-expected code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .card-expected { display: block; font-size: 14px; color: #3a3a3c; line-height: 1.35; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>vCard Link Test</h1>
+    <p>Tap a link to download a <code>.vcf</code> / <code>.vcard</code> contact. Each card notes the expected native iOS behavior.</p>
+  </header>
+  <ul>
+    
+      <li>
+        <a class="card" href="files/full-contact.vcf">
+          <span class="card-title">Full contact</span>
+          <span class="card-meta"><code>files/full-contact.vcf</code></span>
+          <span class="card-expected">Native &quot;Add to Contacts&quot; card (iOS 17+). All fields present.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/minimal-contact.vcf">
+          <span class="card-title">Minimal contact (name only)</span>
+          <span class="card-meta"><code>files/minimal-contact.vcf</code></span>
+          <span class="card-expected">Native &quot;Add to Contacts&quot; card. Only N + FN.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/multiple-contacts.vcf">
+          <span class="card-title">Multiple contacts (3 in one file)</span>
+          <span class="card-meta"><code>files/multiple-contacts.vcf</code></span>
+          <span class="card-expected">QuickLook fallback. Multiple contacts are not supported for native add.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/malformed.vcf">
+          <span class="card-title">Malformed (not a vCard)</span>
+          <span class="card-meta"><code>files/malformed.vcf</code></span>
+          <span class="card-expected">QuickLook fallback. Payload is garbage, not a valid vCard.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/empty.vcf">
+          <span class="card-title">Empty vCard (no usable fields)</span>
+          <span class="card-meta"><code>files/empty.vcf</code></span>
+          <span class="card-expected">QuickLook fallback. Valid structure but no importable data.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/with-photo.vcf">
+          <span class="card-title">Contact with embedded photo</span>
+          <span class="card-meta"><code>files/with-photo.vcf</code></span>
+          <span class="card-expected">Native card showing an embedded photo (base64 PNG).</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/with-note.vcf">
+          <span class="card-title">Contact with a NOTE field</span>
+          <span class="card-meta"><code>files/with-note.vcf</code></span>
+          <span class="card-expected">Native card. NOTE is dropped on import by design; the rest imports fine.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/unicode-name.vcf">
+          <span class="card-title">Unicode name (山田太郎)</span>
+          <span class="card-meta"><code>files/unicode-name.vcf</code></span>
+          <span class="card-expected">Native card with a non-Latin (Japanese) name.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/full-contact.vcard">
+          <span class="card-title">Full contact (.vcard extension)</span>
+          <span class="card-meta"><code>files/full-contact.vcard</code></span>
+          <span class="card-expected">Native card. Recognized by the .vcard file extension.</span>
+        </a>
+      </li>
+  </ul>
+</body>
+</html>
