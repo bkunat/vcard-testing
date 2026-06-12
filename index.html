@@ -159,6 +159,13 @@
         </a>
       </li>
       <li>
+        <a class="card" id="routed-by-extension" href="#">
+          <span class="card-title">Routed by extension (non-standard MIME)</span>
+          <span class="card-meta"><code>application/x-vcard</code> → <code>routed-by-extension.vcf</code></span>
+          <span class="card-expected">A valid contact delivered with a non-standard content type (<code>application/x-vcard</code>) the app doesn't map to a contact, but a <code>.vcf</code> filename. The app can't recognize it by MIME, so it must fall back to routing by file extension. (Built client-side as a blob so the MIME type is fixed regardless of how the site is hosted.)</span>
+        </a>
+      </li>
+      <li>
         <a class="card" href="files/url-only.vcf">
           <span class="card-title">URL only (no name)</span>
           <span class="card-meta"><code>files/url-only.vcf</code></span>
@@ -345,6 +352,35 @@
       });
 
       activate(location.hash.replace('#', ''));
+    })();
+  </script>
+
+  <script>
+    // "Routed by extension" edge case. Deliver a valid contact with a content type
+    // the app doesn't recognize as a contact (application/x-vcard) but a .vcf filename,
+    // so it has to fall back to routing by file extension. Built as a blob with an
+    // explicit MIME type so the content type is fixed no matter how the site is served
+    // (GitHub Pages and a local server both send text/x-vcard for a real .vcf file,
+    // which the app *does* map to a contact — defeating the case).
+    (function () {
+      var link = document.getElementById('routed-by-extension');
+      if (!link) { return; }
+      var vcard = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        'N:Extension;Routed By;;;',
+        'FN:Routed By Extension',
+        'ORG:Wrong MIME Type Co.',
+        'TEL;TYPE=CELL:+1-555-0142',
+        'EMAIL:routed@example.com',
+        'URL:https://bkunat.github.io/vcard-testing/',
+        'NOTE:Delivered as application/x-vcard with a .vcf filename - routed by extension.',
+        'END:VCARD',
+        ''
+      ].join('\r\n');
+      var blob = new Blob([vcard], { type: 'application/x-vcard' });
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute('download', 'routed-by-extension.vcf');
     })();
   </script>
 </body>
