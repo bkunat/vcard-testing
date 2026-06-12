@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>vCard Link Test</title>
+<title>vCard &amp; iCal Link Test</title>
 <style>
   :root { color-scheme: light dark; }
   * { box-sizing: border-box; }
@@ -20,6 +20,9 @@
     .card-meta { color: #aeaeb2; }
     .card-expected { color: #c7c7cc; }
     header p { color: #aeaeb2; }
+    .tabs { background: #1c1c1e; }
+    .tab { color: #aeaeb2; }
+    .tab[aria-selected="true"] { background: #636366; color: #fff; }
   }
   header {
     padding: 24px 20px 8px;
@@ -28,6 +31,38 @@
   }
   header h1 { font-size: 26px; margin: 0 0 6px; }
   header p { margin: 0; color: #6c6c70; font-size: 15px; line-height: 1.4; }
+  /* Segmented control */
+  .tabs {
+    display: inline-flex;
+    margin-top: 16px;
+    padding: 2px;
+    gap: 2px;
+    background: #e3e3e8;
+    border-radius: 9px;
+  }
+  .tab {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 0;
+    margin: 0;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    color: inherit;
+    background: transparent;
+    padding: 6px 26px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .tab[aria-selected="true"] {
+    background: #fff;
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  }
+  /* Panels */
+  .panel { display: none; }
+  .panel.active { display: block; }
   ul { list-style: none; margin: 0 auto; padding: 12px 16px 40px; max-width: 720px; }
   li { margin: 0 0 12px; }
   .card {
@@ -50,11 +85,16 @@
 </head>
 <body>
   <header>
-    <h1>vCard Link Test</h1>
-    <p>Tap a link to download a <code>.vcf</code> / <code>.vcard</code> contact. Each card describes the case it exercises.</p>
+    <h1>Card Link Test</h1>
+    <p>Download links for testing how a device handles contact and calendar files. Each card describes the case it exercises.</p>
+    <div class="tabs" role="tablist" aria-label="File type">
+      <button class="tab" role="tab" id="tab-vcard" data-tab="vcard" aria-controls="panel-vcard" aria-selected="true">vCard</button>
+      <button class="tab" role="tab" id="tab-ical" data-tab="ical" aria-controls="panel-ical" aria-selected="false">iCal</button>
+    </div>
   </header>
-  <ul>
-    
+
+  <section class="panel active" id="panel-vcard" role="tabpanel" aria-labelledby="tab-vcard" data-panel="vcard">
+    <ul>
       <li>
         <a class="card" href="files/full-contact.vcf">
           <span class="card-title">Full contact</span>
@@ -160,6 +200,152 @@
           <span class="card-expected">A contact whose only field is an embedded photo (base64 PNG) — no name, org, phone, email, or address. Should still show the contact card.</span>
         </a>
       </li>
-  </ul>
+    </ul>
+  </section>
+
+  <section class="panel" id="panel-ical" role="tabpanel" aria-labelledby="tab-ical" data-panel="ical" hidden>
+    <ul>
+      <li>
+        <a class="card" href="files/full-event.ics">
+          <span class="card-title">Full event</span>
+          <span class="card-meta"><code>files/full-event.ics</code></span>
+          <span class="card-expected">A complete VEVENT with summary, start/end, location, description, organizer, attendee, URL, alarm, and status.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/minimal-event.ics">
+          <span class="card-title">Minimal event (summary + start)</span>
+          <span class="card-meta"><code>files/minimal-event.ics</code></span>
+          <span class="card-expected">The bare minimum — a summary and a start time, no end time, location, or description.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/all-day-event.ics">
+          <span class="card-title">All-day event</span>
+          <span class="card-meta"><code>files/all-day-event.ics</code></span>
+          <span class="card-expected">A single all-day event using a date-only start (<code>VALUE=DATE</code>), no time component.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/multi-day-event.ics">
+          <span class="card-title">Multi-day event</span>
+          <span class="card-meta"><code>files/multi-day-event.ics</code></span>
+          <span class="card-expected">A four-day all-day event (a conference) that spans multiple days.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/recurring-event.ics">
+          <span class="card-title">Recurring event (weekly)</span>
+          <span class="card-meta"><code>files/recurring-event.ics</code></span>
+          <span class="card-expected">A weekly recurring event (<code>RRULE</code>), every Monday for 10 occurrences.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/event-with-reminder.ics">
+          <span class="card-title">Event with reminder (alarm)</span>
+          <span class="card-meta"><code>files/event-with-reminder.ics</code></span>
+          <span class="card-expected">An event carrying a <code>VALARM</code> — a display reminder 30 minutes before it starts.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/meeting-invite.ics">
+          <span class="card-title">Meeting invite (with attendees)</span>
+          <span class="card-meta"><code>files/meeting-invite.ics</code></span>
+          <span class="card-expected">A meeting invitation (<code>METHOD:REQUEST</code>) with an organizer and two attendees — may trigger an RSVP flow.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/multiple-events.ics">
+          <span class="card-title">Multiple events (3 in one file)</span>
+          <span class="card-meta"><code>files/multiple-events.ics</code></span>
+          <span class="card-expected">Three events in one file — some apps import all, others only the first.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/timezone-event.ics">
+          <span class="card-title">Timezone-aware event</span>
+          <span class="card-meta"><code>files/timezone-event.ics</code></span>
+          <span class="card-expected">An event in <code>America/New_York</code> with a full <code>VTIMEZONE</code> definition and <code>TZID</code>.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/unicode-summary.ics">
+          <span class="card-title">Unicode summary (日本語 + emoji)</span>
+          <span class="card-meta"><code>files/unicode-summary.ics</code></span>
+          <span class="card-expected">An event with a non-Latin summary and an emoji — tests UTF-8 handling.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/no-title-event.ics">
+          <span class="card-title">Event with no title (no SUMMARY)</span>
+          <span class="card-meta"><code>files/no-title-event.ics</code></span>
+          <span class="card-expected">A valid event with no <code>SUMMARY</code> — tests how a missing title is displayed.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/cancelled-event.ics">
+          <span class="card-title">Cancelled event</span>
+          <span class="card-meta"><code>files/cancelled-event.ics</code></span>
+          <span class="card-expected">A cancellation (<code>METHOD:CANCEL</code>, <code>STATUS:CANCELLED</code>) of the meeting invite above — same UID, higher sequence.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/todo.ics">
+          <span class="card-title">To-do (VTODO, not an event)</span>
+          <span class="card-meta"><code>files/todo.ics</code></span>
+          <span class="card-expected">A task (<code>VTODO</code>) with a due date instead of a <code>VEVENT</code> — many importers ignore or mishandle it.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/empty-calendar.ics">
+          <span class="card-title">Empty calendar (no events)</span>
+          <span class="card-meta"><code>files/empty-calendar.ics</code></span>
+          <span class="card-expected">A structurally valid <code>VCALENDAR</code> that contains no components.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="files/malformed.ics">
+          <span class="card-title">Malformed (not iCal)</span>
+          <span class="card-meta"><code>files/malformed.ics</code></span>
+          <span class="card-expected">Not a valid calendar — the payload is plain garbage text.</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <script>
+    (function () {
+      var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+      var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+
+      function activate(name) {
+        if (name !== 'ical') { name = 'vcard'; }
+        tabs.forEach(function (t) {
+          t.setAttribute('aria-selected', String(t.dataset.tab === name));
+        });
+        panels.forEach(function (p) {
+          var on = p.dataset.panel === name;
+          p.classList.toggle('active', on);
+          if (on) { p.removeAttribute('hidden'); } else { p.setAttribute('hidden', ''); }
+        });
+      }
+
+      tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+          if (location.hash !== '#' + t.dataset.tab) {
+            location.hash = t.dataset.tab;
+          } else {
+            activate(t.dataset.tab);
+          }
+        });
+      });
+
+      window.addEventListener('hashchange', function () {
+        activate(location.hash.replace('#', ''));
+      });
+
+      activate(location.hash.replace('#', ''));
+    })();
+  </script>
 </body>
 </html>

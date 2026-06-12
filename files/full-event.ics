@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Card Link Test//iCal Test//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:full-event-001@cardlinktest.example
+DTSTAMP:20260601T120000Z
+DTSTART:20260615T090000Z
+DTEND:20260615T100000Z
+SUMMARY:Quarterly Planning Meeting
+DESCRIPTION:A complete event with all common fields populated. Bring the roadmap.
+LOCATION:1 Infinite Loop, Cupertino, CA 95014
+ORGANIZER;CN=Johnny Appleseed:mailto:johnny.appleseed@example.com
+ATTENDEE;CN=Jane Doe;ROLE=REQ-PARTICIPANT;RSVP=TRUE:mailto:jane.doe@example.com
+URL:https://example.com/events/quarterly-planning
+GEO:37.3318;-122.0312
+CATEGORIES:WORK,MEETING
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+END:VCALENDAR

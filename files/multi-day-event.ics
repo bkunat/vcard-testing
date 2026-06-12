@@ -1,0 +1,13 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Card Link Test//iCal Test//EN
+BEGIN:VEVENT
+UID:multi-day-001@cardlinktest.example
+DTSTAMP:20260601T120000Z
+DTSTART;VALUE=DATE:20260810
+DTEND;VALUE=DATE:20260814
+SUMMARY:Multi-Day Conference
+LOCATION:Convention Center
+DESCRIPTION:A four-day all-day event (Aug 10-13). Tests multi-day span handling.
+END:VEVENT
+END:VCALENDAR
